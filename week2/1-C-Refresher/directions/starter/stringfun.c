@@ -1,6 +1,6 @@
 // Alicia Ait-Seddik
 // CS283
-// Assignment 1
+// Assignment 1 - C -Refresher
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
