@@ -314,7 +314,7 @@ int main(int argc, char *argv[]){
         choice = argv[3];
         replacement = argv[4];
     }
-    else //if (opt == 'x')
+    else if (opt == 'x')
     {
         printf("Error: invalid number of arguments\n");
         exit(2);
