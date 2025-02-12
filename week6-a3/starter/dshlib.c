@@ -44,6 +44,8 @@
         return ERR_CMD_OR_ARGS_TOO_BIG;
     }
 
+    clist->num = 0;
+
     //outer token splits the input using the pipe character and pointer variable
     char *outer_ptr;
     char *outer_token = strtok_r(line_copy, PIPE_STRING, &outer_ptr);
@@ -141,7 +143,7 @@
         strcpy(clist->commands[clist->num].args, arg_buffer);
 
         //frees allocated memory used for command's inner token
-        free(arg_buffer);
+      
         free(command_copy);
 
         //increments num of parsed commands
