@@ -73,11 +73,6 @@
             trimmed++;
 
         //warns the user and restart the loop if input is empty
-        if (*trimmed == '\0')
-        {
-            printf("warning: no commands provided\n");
-            continue;
-        }
 
         //checks for exit command
         if (strcmp(trimmed, EXIT_CMD) == 0)
@@ -152,15 +147,17 @@
         }
         else if (rc == WARN_NO_CMDS)
         {
-            printf("warning: no commands provided\n");
+            printf(CMD_WARN_NO_CMD);
+            continue;
         }
         else if (rc == ERR_TOO_MANY_COMMANDS)
         {
-            printf("error: piping limited to %d commands\n", CMD_MAX);
+            printf(CMD_ERR_PIPE_LIMIT, CMD_MAX);
+            continue;
         }
         else if (rc == ERR_CMD_OR_ARGS_TOO_BIG)
         {
-            printf("error: command or arguments too big\n");
+            printf(CMD_ERR_PIPE_LIMIT, CMD_MAX);
         }
     }
     return 0;

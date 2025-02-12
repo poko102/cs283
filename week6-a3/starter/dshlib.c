@@ -41,7 +41,6 @@
     char *line_copy = strdup(cmd_line);
     if (line_copy == NULL)
     {
-        perror("Error duplicating command line");
         return ERR_CMD_OR_ARGS_TOO_BIG;
     }
 
