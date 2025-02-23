@@ -10,6 +10,7 @@
 # All tests in this file must pass - it is used as part of grading!
 ########################################################################################
 
+
 @test "Change directory" {
     current=$(pwd)
 
