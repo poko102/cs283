@@ -1,6 +1,3 @@
-//Alicia Ait-Seddik
-//CS284 - A4
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -10,6 +7,7 @@
 #include <fcntl.h>
 #include <sys/wait.h>
 #include "dshlib.h"
+
 
 
 /*
@@ -55,6 +53,13 @@
  *  Standard Library Functions You Might Want To Consider Using (assignment 2+)
  *      fork(), execvp(), exit(), chdir()
  */
+
+extern void print_dragon(void);
+
+
+#ifndef CMD_ERR_EXECUTE
+#define CMD_ERR_EXECUTE "error: execution failed"
+#endif
 
  //initializes cmd_buff_t and all pointers in the argv array to NULL
  int alloc_cmd_buff(cmd_buff_t *cmd_buff) 
@@ -201,12 +206,14 @@ int exec_local_cmd_loop()
         {
             //skips extra whitespace
             while (*p && isspace((unsigned char)*p))
+            {
                 p++;
+            }
             if (*p == '\0')
             {
                 break;
             }
-            char *token;
+            char *token = NULL;
             
             if (*p == '"') 
             {
@@ -214,8 +221,10 @@ int exec_local_cmd_loop()
                 p++;             
                 token = p;
                 while (*p && *p != '"')
+                {
                 //finds closing quote and ends the token while skipping closing qoute
-                    p++;       
+                    p++;  
+                }     
                 if (*p == '"') 
                 {
                     *p = '\0';
@@ -246,6 +255,12 @@ int exec_local_cmd_loop()
             }
         }
         cmd.argv[cmd.argc] = NULL;
+
+        if (cmd.argc == 0 || cmd.argv[0] == NULL) {
+            clear_cmd_buff(&cmd);
+            continue;
+        }
+        
        
         //checks if command is "cd" and if so, change directory
         if (strcmp(cmd.argv[0], "cd") == 0) 
@@ -314,5 +329,5 @@ int exec_local_cmd_loop()
    
     //frees buff
     free(cmd_buff);
-    return OK;
+    return rc;
 }
