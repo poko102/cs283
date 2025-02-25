@@ -287,7 +287,7 @@ int exec_local_cmd_loop()
         }
        
        // TODO IMPLEMENT if built-in command, execute builtin logic for exit, cd (extra credit: dragon)
-        if (strcmp(cmd_buff, "dragon") == 0) 
+        if (strcmp(cmd.argv[0], "dragon") == 0) 
         {
             print_dragon();
             clear_cmd_buff(&cmd);
