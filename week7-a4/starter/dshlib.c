@@ -184,6 +184,7 @@ int exec_local_cmd_loop()
         {
             memmove(cmd._cmd_buffer, start, strlen(start) + 1);
         }
+        
         //trims trailing whitespace
         size_t len = strlen(cmd._cmd_buffer);
         while (len > 0 && isspace((unsigned char)cmd._cmd_buffer[len - 1])) 
@@ -285,8 +286,8 @@ int exec_local_cmd_loop()
             continue;
         }
        
-        // TODO IMPLEMENT if built-in command, execute builtin logic for exit, cd (extra credit: dragon)
-        if (strcmp(cmd.argv[0], "dragon") == 0) 
+       // TODO IMPLEMENT if built-in command, execute builtin logic for exit, cd (extra credit: dragon)
+        if (strcmp(cmd_buff, "dragon") == 0) 
         {
             print_dragon();
             clear_cmd_buff(&cmd);
