@@ -108,3 +108,17 @@ EOF
     [[ "$output" == *"first"* && "$output" == *"second"* ]]
 }
 
+
+@test "Echo preserves quoted spaces" {
+    run ./dsh <<EOF
+    echo "hello   world"
+EOF
+
+    echo "Captured stdout:" 
+    echo "Output: $output"
+    echo "Exit Status: $status"
+    echo "${stripped_output} -> ${expected_output}"
+
+    [ "$status" -eq 0 ]
+    [ "$output" = "hello   world" ]
+}

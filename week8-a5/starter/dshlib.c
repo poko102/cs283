@@ -272,7 +272,7 @@ int execute_pipeline(command_list_t *clist)
             perror(CMD_ERR_EXECUTE);
             exit(1);
         }
-    }
+    } 
     //closes pipe file descriptors for parent
     for (int i = 0; i < 2 * (n - 1); i++) 
     {
