@@ -33,7 +33,7 @@ typedef struct command_list{
     cmd_buff_t commands[CMD_MAX];
 }command_list_t;
 
-//Special character #defines
+//Special character #defines 
 #define SPACE_CHAR  ' '
 #define PIPE_CHAR   '|'
 #define PIPE_STRING "|"

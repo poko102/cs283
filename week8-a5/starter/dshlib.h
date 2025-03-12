@@ -65,7 +65,7 @@ int parse_single_command(char *input, cmd_buff_t *cmd);
 
 
 
-// Main execution functions
+//Main execution functions
 void exec_local_cmd_loop();
 int exec_cmd(cmd_buff_t *cmd);
 void exec_external_cmd(cmd_buff_t *cmd);

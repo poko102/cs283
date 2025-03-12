@@ -532,7 +532,7 @@ int execute_pipeline(command_list_t *clist)
             clear_cmd_buff(&cmd);
         }
      }
-        //frees buff
+        //frees cmd_buff
         free(cmd_buff);
         return rc;
     }

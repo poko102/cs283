@@ -45,7 +45,7 @@ void parse_args(int argc, char *argv[], cmd_args_t *cargs) {
   int opt;
   memset(cargs, 0, sizeof(cmd_args_t));
 
-  //defaults
+  //defaults 
   cargs->mode = MODE_LCLI;
   cargs->port = RDSH_DEF_PORT;
 

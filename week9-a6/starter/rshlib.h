@@ -5,7 +5,7 @@
 
 //common remote shell client and server constants and definitions
 
-
+ 
 //Constants for communication
 //Note that these should work fine in a local VM but you will likely have
 //to change the port number if you are working on tux.
