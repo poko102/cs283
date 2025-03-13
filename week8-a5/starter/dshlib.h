@@ -66,7 +66,7 @@ int parse_single_command(char *input, cmd_buff_t *cmd);
 
 
 //Main execution functions
-void exec_local_cmd_loop();
+int exec_local_cmd_loop();
 int exec_cmd(cmd_buff_t *cmd);
 void exec_external_cmd(cmd_buff_t *cmd);
 int execute_pipeline(command_list_t *clist);
