@@ -138,7 +138,7 @@ int exec_remote_cmd_loop(char *address, int port)
 
         if (send(cli_socket, cmd_buff, strlen(cmd_buff)+ 1, 0) < 0)
         {
-            perror("send");
+            perror("error: send() failed");
             break;
         }
 
@@ -149,14 +149,16 @@ int exec_remote_cmd_loop(char *address, int port)
             //go to cleanuo if error occurs
             if (io_size < 0)
             {
-                perror("recv");
-                goto cleanup;
+                perror("error: recv failed");
+                return client_cleanup(cli_socket, cmd_buff, rsp_buff, ERR_RDSH_CLIENT);
+
             }
             //close connection if 0 bytes are recieved
             if (io_size == 0)
             {
-                printf("Server closed connection.\n");
-                goto cleanup;
+                printf(RCMD_SERVER_EXITED);
+                return client_cleanup(cli_socket, cmd_buff, rsp_buff, ERR_RDSH_CLIENT);
+
             }
 
             //checks if last byte is EOF char
@@ -180,14 +182,12 @@ int exec_remote_cmd_loop(char *address, int port)
             //sends exit cmd to server if user types the cmd
             if (send(cli_socket, cmd_buff, strlen(cmd_buff)+ 1, 0) < 0) 
             {
-                perror("send");
+                perror("exit");
             }
             break;
         }
     }
 
-cleanup:
-    return client_cleanup(cli_socket, cmd_buff, rsp_buff, OK);
 }
 
 /*
@@ -225,7 +225,7 @@ int start_client(char *server_ip, int port){
 
     if (cli_socket < 0) 
     {
-         perror("socket");
+         perror("error: creating socket failed");
          return ERR_RDSH_CLIENT;
     }
     
@@ -239,7 +239,7 @@ int start_client(char *server_ip, int port){
     ret = connect(cli_socket, (struct sockaddr *)&addr, sizeof(addr));
     if (ret < 0) 
     {
-         perror("connect");
+         perror("error: connection failed");
          close(cli_socket);
          return ERR_RDSH_CLIENT;
     }

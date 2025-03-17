@@ -126,7 +126,7 @@ int boot_server(char *ifaces, int port){
     svr_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (svr_socket < 0)
     {
-         perror("socket"); 
+         perror("socket error"); 
          return ERR_RDSH_COMMUNICATION;
     }
 
@@ -134,7 +134,7 @@ int boot_server(char *ifaces, int port){
     int enable = 1;
     if (setsockopt(svr_socket, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0)
     {
-         perror("setsockopt");
+         perror("error:t");
          close(svr_socket);
          return ERR_RDSH_COMMUNICATION;
     }
@@ -151,7 +151,7 @@ int boot_server(char *ifaces, int port){
     ret = bind(svr_socket, (struct sockaddr *)&addr, sizeof(addr));
     if (ret < 0)
     {
-         perror("bind");
+         perror("error w/ binding socket");
          close(svr_socket);
          return ERR_RDSH_COMMUNICATION;
     }
@@ -165,7 +165,7 @@ int boot_server(char *ifaces, int port){
     ret = listen(svr_socket, 20);
     if (ret == -1) 
     {
-        perror("listen");
+        perror("error w/ accepting connections");
         return ERR_RDSH_COMMUNICATION;
     }
 
@@ -225,7 +225,7 @@ int process_cli_requests(int svr_socket){
         cli_socket = accept(svr_socket, NULL, NULL);
         if (cli_socket < 0)
         {
-            perror("accept");
+            perror("error creatign");
             rc = ERR_RDSH_COMMUNICATION;
             break;
         }
@@ -310,7 +310,7 @@ int exec_client_requests(int cli_socket)
 
         if (io_size < 0)
         {
-            perror("recv");
+            perror("error w/ getting");
             free(io_buff);
             return ERR_RDSH_COMMUNICATION;
         }
@@ -335,15 +335,12 @@ int exec_client_requests(int cli_socket)
             }
             if (*dir == '\0')
             {
-                send_message_string(cli_socket, "rdsh-error: no directory specified\n");
-            }
-            else
-            {
                 if (chdir(dir) != 0)
                 {
+                    send_message_string(cli_socket, CMD_ERR_RDSH_EXEC);
                     perror("chdir failed");
-                    send_message_string(cli_socket, "rdsh-error: chdir failed\n");
                 }
+        
             }
             send_message_eof(cli_socket);
             continue;
@@ -362,7 +359,7 @@ int exec_client_requests(int cli_socket)
                 }
                 else
                 {
-                    fprintf(stderr, "Error: command parsing failed\n");
+                    fprintf(stderr, CMD_ERR_RDSH_EXEC);
                 }
                 //sends error message if parsing fails
                 send_message_string(cli_socket, CMD_ERR_RDSH_EXEC);
@@ -382,7 +379,7 @@ int exec_client_requests(int cli_socket)
             pid_t pid = fork();
             if (pid < 0) 
             {
-                perror("fork");
+                perror("fork error");
                 free(io_buff);
                 return ERR_RDSH_CMD_EXEC;
             }
@@ -498,7 +495,7 @@ int send_message_string(int cli_socket, char *buff){
         int sent = send(cli_socket, buff + total_sent, len - total_sent, 0);
         if (sent < 0)
         {
-            perror("send"); 
+            perror("send error"); 
             return ERR_RDSH_COMMUNICATION;
         }
         total_sent += sent;
@@ -556,7 +553,7 @@ int rsh_execute_pipeline(int cli_sock, command_list_t *clist) {
     // Create all necessary pipes
     for (int i = 0; i < clist->num - 1; i++) {
         if (pipe(pipes[i]) == -1) {
-            perror("pipe");
+            perror("pipe error");
             exit(EXIT_FAILURE);
         }
     }
@@ -569,7 +566,7 @@ int rsh_execute_pipeline(int cli_sock, command_list_t *clist) {
 
         if(pids[i] < 0) 
         {
-            perror("fork");
+            perror("fork error");
             exit(EXIT_FAILURE);
         } 
 
