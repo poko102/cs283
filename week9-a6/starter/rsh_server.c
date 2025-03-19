@@ -333,15 +333,6 @@ int exec_client_requests(int cli_socket)
             {
                 dir++;
             }
-            if (*dir == '\0')
-            {
-                if (chdir(dir) != 0)
-                {
-                    send_message_string(cli_socket, CMD_ERR_RDSH_EXEC);
-                    perror("chdir failed");
-                }
-        
-            }
             send_message_eof(cli_socket);
             continue;
         }
